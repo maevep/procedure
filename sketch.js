@@ -7,24 +7,31 @@ var var2;
 var circleX = 200;
 var circleY = 200;
 var circleDiameter = 50;
+var score;
+
+
+
+
 
 function preload() {
-    img = loadImage("assets/room-1.png");
-     img2 = loadImage("assets/room-2.png");
-    sound = loadSound("assets/night.m4a");
-    guy = loadAnimation("assets/sprite-1.png", "assets/sprite-2.png");
+    img = loadImage("assets/back.png");
+     img2 = loadImage("assets/guy.png");
+    sound = loadSound("assets/sound.wav");
+
 
 }
 
-	function setup() {
+function setup() {
 createCanvas(500, 500);
+sound.play();
 
-sound.setVolume(0.50);
+    score = 0;
 
 var1 = 0;
 var2 = 0;
 }
 function draw() {
+
 if (var1 == 0) {
 mainScreen();
 openScreen();
@@ -57,6 +64,7 @@ image(img,0, 0, 500, 500);
 
 frameRate(4);
 }
+
 function openScreen() {
 fill(255, 255, 255);
 
@@ -65,21 +73,28 @@ text("Press 'E' to enter", 250, 250);
 }
 function rulesScreen() {
 fill(255, 255, 255);
-
+image(img2,0, 0, 500, 500);
 textAlign(CENTER);
-    animation(guy, 200, 345);
-text("Welcome to Silent meeting! Speak when God's yellow light is over you by pressing 'S'.", 250, 250);
-text("Don't Speak during God's orange light, though!", 250, 270);
+
+text("Welcome to Silent meeting! Speak by clicking the evassive yellow light.", 250, 250);
+text("Press 'T' to try again", 250, 270);
 text("Press 'B' to begin", 250, 300);
 }
 function game() {
-fill(255, 255, 255);
+    noStroke();
+fill(238, 255, 0, 50);
 image(img2,0, 0, 500, 500);
-animation(guy, 200, 345);
+
+
 
     ellipse(circleX, circleY, 50, 50);
-    fill(255, 255, 255);
 
+
+    fill(255, 255, 255);
+     updateScore();
+
+
+    frameRate(4);
 }
 function keyPressed() {
 if (key === "E") {
@@ -87,9 +102,6 @@ var1 += 1;
 }
 if (key === "B") {
 var1 += 1;
-}
-if (key === "D") {
-var2 += 1;
 }
 if (key === "T") {
 var1 = 0;
@@ -100,11 +112,31 @@ var2 = 0;
 function mousePressed() {
     var d = dist(mouseX, mouseY, circleX, circleY);
     if (d < circleDiameter / 2) {
+
         updateCircle();
+        score=score+1;
     }
 }
 
+
 function updateCircle() {
+ setTimeout(updateCircle, 4000);
     circleX = random(50, 350);
     circleY = random(50, 350);
 }
+
+
+function updateScore() {
+
+    textSize(20);
+    text("Score: " + score, 20, 20);
+}
+
+
+if (score==5){
+    mainScreen();
+    fill(255);
+
+    text("Congrats! You win, God will love you erternally.", height/2, width/2);
+
+  }
