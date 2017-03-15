@@ -133,7 +133,7 @@ function updateScore() {
 }
 
 
-if (score==5){
+if (score==50){
     mainScreen();
     fill(255);
 
